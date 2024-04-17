@@ -48,7 +48,7 @@ func main() {
 	s.GracefulStop()
 }
 
-func (s *gRPCServer) Hello(ctx context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
+func (s *gRPCServer) Hello(_ context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
 	return &hellopb.HelloResponse{Message: fmt.Sprintf("Hello, %s", req.GetName())}, nil
 }
 
