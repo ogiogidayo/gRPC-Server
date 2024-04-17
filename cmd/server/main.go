@@ -83,8 +83,8 @@ func (s *gRPCServer) HelloClientStream(stream hellopb.GreetingService_HelloClien
 }
 
 func (s *gRPCServer) HelloBiStreams(stream hellopb.GreetingService_HelloBiStreamsServer) error {
-	req, err := stream.Recv()
 	for {
+		req, err := stream.Recv()
 		if errors.Is(err, io.EOF) {
 			return nil
 		}
