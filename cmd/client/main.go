@@ -2,6 +2,7 @@ package client
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	hellopb "gRPC_Server/pkg/grpc"
 	"google.golang.org/grpc"
@@ -55,4 +56,18 @@ func main() {
 		}
 	}
 M:
+}
+
+func Hello() {
+	fmt.Println("Please enter your name.")
+	scanner.Scan()
+	name := scanner.Text()
+
+	req := &hellopb.HelloRequest{Name: name}
+	res, err := client.Hello(context.Background(), req)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(res.GetMessage())
+	}
 }
