@@ -8,7 +8,10 @@ package gRPC_Server;
 
 // Services
 service GreetingService {
+  // サービスが持つメソッドの定義
   rpc Hello (HelloRequest) returns (HelloResponse);
+  // サーバーストリーミングRPC
+  rpc HelloServerStream (HelloRequest) returns (stream HelloResponse);
 }
 
 // Request
