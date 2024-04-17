@@ -65,7 +65,7 @@ func (s *gRPCServer) HelloServerStream(req *hellopb.HelloRequest, stream hellopb
 	return nil
 }
 
-func (s *gRPCServer) HelloClientServer(stream hellopb.GreetingService_HelloClientStreamServer) error {
+func (s *gRPCServer) HelloClientStream(stream hellopb.GreetingService_HelloClientStreamServer) error {
 	nameList := make([]string, 0)
 	for {
 		req, err := stream.Recv()
