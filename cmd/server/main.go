@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	hellopb "gRPC_Server/pkg/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -61,4 +63,21 @@ func (s *gRPCServer) HelloServerStream(req *hellopb.HelloRequest, stream hellopb
 		time.Sleep(time.Second * 1)
 	}
 	return nil
+}
+
+func (s *gRPCServer) HelloClientServer(stream hellopb.GreetingService_HelloClientStreamServer) error {
+	nameList := make([]string, 0)
+	for {
+		req, err := stream.Recv()
+		if errors.Is(err, io.EOF) {
+			message := fmt.Sprintf("Hello %v!", nameList)
+			return stream.SendAndClose(&hellopb.HelloResponse{
+				Message: message,
+			})
+		}
+		if err != nil {
+			return err
+		}
+		nameList = append(nameList, req.GetName())
+	}
 }
