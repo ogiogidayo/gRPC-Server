@@ -1,4 +1,4 @@
-package client
+package main
 
 import (
 	"bufio"
@@ -31,7 +31,7 @@ func main() {
 		grpc.WithBlock(),
 	)
 	if err != nil {
-		log.Fatal("connection failed.")
+		log.Fatal("Connection failed.")
 		return
 	}
 	defer conn.Close()
