@@ -81,3 +81,21 @@ func (s *gRPCServer) HelloClientStream(stream hellopb.GreetingService_HelloClien
 		nameList = append(nameList, req.GetName())
 	}
 }
+
+func (s *gRPCServer) HelloBiStreams(stream hellopb.GreetingService_HelloBiStreamsServer) error {
+	req, err := stream.Recv()
+	for {
+		if errors.Is(err, io.EOF) {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+		message := fmt.Sprintf("Hello, %v", req.GetName())
+		if err := stream.Send(&hellopb.HelloResponse{
+			Message: message,
+		}); err != nil {
+			return err
+		}
+	}
+}
